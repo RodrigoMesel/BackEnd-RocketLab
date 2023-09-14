@@ -1,17 +1,35 @@
-import { IsEnum, IsOptional } from "class-validator";
-import { Unity } from '@prisma/client'
+import {
+  IsDecimal,
+  IsEnum,
+  IsNotEmpty,
+  IsOptional,
+  Max,
+  Min,
+} from 'class-validator';
+import { Unity } from '@prisma/client';
 
 export class CreateIndicatorDto {
-    name: string;
-    weight: number;
+  @IsNotEmpty()
+  name: string;
 
-    @IsEnum(Unity)
-    unity: Unity;
-    
-    goal: string;
-    superGoal: string;
-    challenge: string;
+  @Min(0.01)
+  @Max(0.99)
+  @IsNotEmpty()
+  weight: number;
 
-    @IsOptional()
-    result: string;
+  @IsNotEmpty()
+  @IsEnum(Unity)
+  unity: Unity;
+
+  @IsNotEmpty()
+  goal: string;
+
+  @IsNotEmpty()
+  superGoal: string;
+
+  @IsNotEmpty()
+  challenge: string;
+
+  @IsOptional()
+  result: string;
 }
