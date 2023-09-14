@@ -1,0 +1,47 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Colaborator {
+  id Int @id @default(autoincrement())
+  name String 
+  grade Float  
+
+  indicator ColaboratorIndicator[] // Para a chave estrangeira
+
+}
+
+model Indicator {
+  id Int @id @default(autoincrement())
+  name String 
+  weight Float 
+  unity Unity 
+  goal String 
+  superGoal String 
+  challenge String 
+  result String  
+  
+  colaborator ColaboratorIndicator[] // Para a chave estrangeira
+
+}
+
+model ColaboratorIndicator {
+  id Int @id @default(autoincrement())
+  colaboratorId Int 
+  indicatorId Int
+
+  indicator Indicator @relation(fields: [indicatorId], references: [id]) // Chave estrangeira
+  colaborator Colaborator @relation(fields: [colaboratorId], references: [id]) // Chave estrangeira
+
+}
+
+enum Unity{
+  Numero
+  Financeiro
+  Percentual  
+}
