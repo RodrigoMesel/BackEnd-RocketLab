@@ -9,7 +9,6 @@ export class IndicatorController {
 
   @Post()
   create(@Body() createIndicatorDto: CreateIndicatorDto) {
-    console.log(createIndicatorDto)
     return this.indicatorService.create(createIndicatorDto);
   }
 

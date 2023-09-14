@@ -1,5 +1,5 @@
 import { IsEnum, IsOptional } from "class-validator";
-import Unity from "src/Enums/unity.enum";
+import { Unity } from '@prisma/client'
 
 export class CreateIndicatorDto {
     name: string;
