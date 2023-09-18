@@ -10,7 +10,8 @@ datasource db {
 model Colaborator {
   id    Int    @id @default(autoincrement())
   name  String
-  grade Float
+  grade Float @default(0)
+  role String
 
   indicator ColaboratorIndicator[] // Para a chave estrangeira
 }
@@ -18,12 +19,6 @@ model Colaborator {
 model Indicator {
   id        Int    @id @default(autoincrement())
   name      String
-  weight    Float
-  unity     Unity
-  goal      String
-  superGoal String
-  challenge String
-  result    String @default("")
 
   colaborator ColaboratorIndicator[] // Para a chave estrangeira
 }
@@ -32,6 +27,13 @@ model ColaboratorIndicator {
   id            Int @id @default(autoincrement())
   colaboratorId Int
   indicatorId   Int
+  result        Float @default(0)
+  creationMonth Int
+  weight        Float
+  unity         Unity
+  goal          Float
+  superGoal     Float
+  challenge     Float
 
   indicator   Indicator   @relation(fields: [indicatorId], references: [id]) // Chave estrangeira
   colaborator Colaborator @relation(fields: [colaboratorId], references: [id]) // Chave estrangeira

@@ -1,11 +1,9 @@
-import { IsNotEmpty, Max, Min } from 'class-validator';
+import { IsNotEmpty } from 'class-validator';
 
 export class CreateColaboratorDto {
   @IsNotEmpty()
   name: string;
 
   @IsNotEmpty()
-  @Min(0)
-  @Max(5)
-  grade: number;
+  role: string;
 }

@@ -3,4 +3,6 @@ import { CreateColaboratorIndicatorDto } from './create-colaborator-indicator.dt
 
 export class UpdateColaboratorIndicatorDto extends PartialType(CreateColaboratorIndicatorDto) {
     id: number;
+
+    creationMonth: number;
 }
