@@ -1,4 +1,9 @@
+import { IsNotEmpty } from 'class-validator';
+
 export class CreateColaboratorIndicatorDto {
-    colaboratorId: number;
-    indicatorId: number;
+  @IsNotEmpty()
+  colaboratorId: number;
+
+  @IsNotEmpty()
+  indicatorId: number;
 }
