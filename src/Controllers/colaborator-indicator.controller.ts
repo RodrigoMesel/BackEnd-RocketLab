@@ -12,6 +12,11 @@ export class ColaboratorIndicatorController {
     return this.colaboratorIndicatorService.create(createColaboratorIndicatorDto);
   }
 
+  @Get('statistics')
+  async getStatistics(){
+    return await this.colaboratorIndicatorService.getStatistics()
+  }
+
   @Get()
   findAll() {
     return this.colaboratorIndicatorService.findAll();

@@ -59,6 +59,26 @@ export class ColaboratorRepository {
     }
   }
 
+  async updateGrade(id: number, updateColaboratorDto: UpdateColaboratorDto, grade: number) {
+    try {     
+
+        return await this.prisma.colaborator.update({   
+            where: {
+                id: id
+            },         
+
+            data: {
+              id: id,
+              name: updateColaboratorDto.name,
+              grade: grade
+            }
+        })
+
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async remove(id: number) {
     try {     
 
