@@ -33,6 +33,14 @@ export class ColaboratorIndicatorController {
     return await this.colaboratorIndicatorService.getStatistics();
   }
 
+  @ApiOperation({
+    summary: 'Retorna estatísticas gerais dos indicadores por mes',
+  })
+  @Get('statistics/month/:month')
+  async getStatisticsByMonth(@Param('month') month: string) {
+    return await this.colaboratorIndicatorService.getStatisticsByMonth(+month);
+  }
+
   @ApiOperation({ summary: 'Retorna todas as relações colaborador-indicador' })
   @Get()
   findAll() {
