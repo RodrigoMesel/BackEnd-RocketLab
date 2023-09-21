@@ -29,58 +29,33 @@ export class ColaboratorIndicatorService {
   }
 
   async getStatistics(){
+
     var lastMonth = new Date().getMonth()
     if(lastMonth == 0) {
       lastMonth = 12
     }
 
-    var lastMonthAchieveGoal = 0
-    var lastMonthAchieveSuperGoal = 0
-    var lastMonthAchieveChallenge = 0
-    var lastMonthAchieveNothing = 0
+    var goal = []
+    var superGoal = []
+    var challenge = []
+    var nothing = []
 
-    var totalGoal = 0
-    var totalSuperGoal = 0
-    var totalChallenge = 0
-    var totalNothing = 0
+    for (var i = 1; i <= 6; i++) {
 
-    var lastMonthResults = await this.colaboratorIndicatorRepository.findAllWithMonth(lastMonth)
-
-    lastMonthResults.forEach(element => {
-      if(element.result != null) {
-
-        if(element.result >= element.challenge){
-          lastMonthAchieveChallenge ++
-          totalChallenge ++
-        }
-        else if (element.result >= element.superGoal){
-          lastMonthAchieveSuperGoal ++ 
-          totalSuperGoal ++
-        }
-        else if (element.result >= element.goal){
-          lastMonthAchieveGoal ++
-          totalGoal ++
-        }
-        else {
-          lastMonthAchieveNothing ++
-          totalNothing ++
-        }
-      }
-      else{
-        totalNothing ++
-        lastMonthAchieveNothing ++
-      }
-    });
-
-    for (var i = 1; i < 6; i++) {
+      var totalGoal = 0
+      var totalSuperGoal = 0
+      var totalChallenge = 0
+      var totalNothing = 0
 
       var analysedMonth = lastMonth - i 
-      if (analysedMonth == 0) {
-        analysedMonth = 12
+      if (analysedMonth <= 0) {
+        analysedMonth = 12 + (lastMonth - i )
       }
-      lastMonthResults = await this.colaboratorIndicatorRepository.findAllWithMonth(analysedMonth)
 
-      lastMonthResults.forEach(element => {
+      var monthResults = await this.colaboratorIndicatorRepository.findAllWithMonth(analysedMonth)
+
+      monthResults.forEach(element => {
+
         if(element.result != null) {
   
           if(element.result >= element.challenge){
@@ -99,20 +74,21 @@ export class ColaboratorIndicatorService {
         } else{
           totalNothing ++
         }
+        
       });
+
+      goal.push(totalGoal)
+      superGoal.push(totalSuperGoal)
+      challenge.push(totalChallenge)
+      nothing.push(totalNothing)
 
     }
 
     return {
-     lastMonthAchieveGoal,
-     lastMonthAchieveSuperGoal,
-     lastMonthAchieveChallenge,
-     lastMonthAchieveNothing,
-
-     totalGoal,
-     totalSuperGoal,
-     totalChallenge,
-     totalNothing
+     goal,
+     superGoal,
+     challenge,
+     nothing,
     }
 
   }
