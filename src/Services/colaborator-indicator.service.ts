@@ -74,9 +74,6 @@ export class ColaboratorIndicatorService {
   }
 
   //TODO
-  async getStatisticsByColaboratorMonth(id: number, month: number) {}
-
-  //TODO
   async getStatisticsByColaborator(id: number) {}
 
   async getStatisticsByMonth(month: number) {
@@ -112,6 +109,57 @@ export class ColaboratorIndicatorService {
       superGoal,
       challenge,
       nothing,
+    };
+  }
+
+  async getStatisticsByMonthAndColaborator(month: number, id: number) {
+    if (month == 0) {
+      month = 12;
+    }
+
+    var goal = 0;
+    var superGoal = 0;
+    var challenge = 0;
+    var nothing = 0;
+    var nothingIndicators = []
+    var monthGrade = 0;
+
+
+    const monthIndicators =
+      await this.colaboratorIndicatorRepository.findAllWithMonthAndColaborator(month, id);
+
+    monthIndicators.forEach((element) => {
+      if (element.result != null) {
+
+        monthGrade += element.result * element.weight
+
+        if (element.result >= element.challenge) {
+          challenge++;
+        } else if (element.result >= element.superGoal) {
+          superGoal++;
+        } else if (element.result >= element.goal) {
+          goal++;
+        } else {
+          nothing++;
+          nothingIndicators.push(element)
+        }
+      } else {
+        nothing++;
+        nothingIndicators.push(element)
+      }
+    });
+
+    monthGrade = monthGrade / monthIndicators.length
+
+    return {
+      goal,
+      superGoal,
+      challenge,
+      nothing,
+      monthGrade,
+
+      monthIndicators,
+      nothingIndicators
     };
   }
 }

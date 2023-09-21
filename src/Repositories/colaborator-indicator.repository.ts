@@ -72,6 +72,19 @@ export class ColaboratorIndicatorRepository {
     }
   }
 
+  async findAllWithMonthAndColaborator(month : number, id: number) {
+    try {
+      return await this.prisma.colaboratorIndicator.findMany({
+        where: {
+          creationMonth: month,
+          colaboratorId: id
+        }
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async findAllUserActivitiesWithLastMonth(id: number) {
     try {
       var lastMonth = new Date().getMonth()
@@ -116,4 +129,6 @@ export class ColaboratorIndicatorRepository {
       throw error;
     }
   }
+
+
 }
