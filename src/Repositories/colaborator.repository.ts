@@ -92,4 +92,30 @@ export class ColaboratorRepository {
       throw error;
     };
   }
+
+  async getAllOrderedByName(){
+    try {     
+
+      return await this.prisma.colaborator.findMany({            
+          orderBy: {
+              name: 'asc'
+          }
+      })
+    } catch (error) {
+    throw error;
+    };
+  }
+
+  async getAllOrderedByGrade(){
+    try {     
+
+      return await this.prisma.colaborator.findMany({            
+          orderBy: {
+              grade: 'desc'
+          }
+      })
+    } catch (error) {
+    throw error;
+    };
+  }
 }

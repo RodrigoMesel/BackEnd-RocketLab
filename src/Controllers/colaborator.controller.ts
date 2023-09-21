@@ -29,6 +29,18 @@ export class ColaboratorController {
     return this.colaboratorService.findAll();
   }
 
+  @ApiOperation({ summary: 'Retorna todos colaboradores ordenados por nome' })
+  @Get('sortedByName')
+  findAllOrderedByName() {
+    return this.colaboratorService.getAllOrderedByName();
+  }
+
+  @ApiOperation({ summary: 'Retorna todos colaboradores ordenados por nota' })
+  @Get('sortedByGrade')
+  findAllOrderedByGrade() {
+    return this.colaboratorService.getAllOrderedByGrade();
+  }
+
   @ApiOperation({ summary: 'Retorna um colaborador' })
   @Get(':id')
   findOne(@Param('id') id: string) {

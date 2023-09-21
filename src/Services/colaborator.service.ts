@@ -30,18 +30,30 @@ export class ColaboratorService {
     var userActivities = await this.colaboratorIndicatorRepository.findAllUserActivitiesWithLastMonth(updateColaboratorDto.id)
     
     var grade = 0
-    var activities = 0
     userActivities.forEach(element => {
-      activities ++
-      grade += element.result * element.weight
+
+      if(element.result != null){
+        grade += element.result * element.weight
+      }
+      
     });
 
-    grade = grade / activities
+    grade = grade / userActivities.length
 
     return this.colaboratorRepository.updateGrade(id, updateColaboratorDto, grade)
   }
 
   remove(id: number) {
     return this.colaboratorRepository.remove(id);
+  }
+
+  getAllOrderedByName(){
+    return this.colaboratorRepository.getAllOrderedByName();
+
+  }
+
+  getAllOrderedByGrade(){
+    return this.colaboratorRepository.getAllOrderedByGrade();
+
   }
 }
