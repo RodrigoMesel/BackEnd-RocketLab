@@ -5,11 +5,14 @@ import { ColaboratorIndicatorRepository } from 'src/Repositories/colaborator-ind
 
 @Injectable()
 export class ColaboratorIndicatorService {
-
-  constructor(private readonly colaboratorIndicatorRepository: ColaboratorIndicatorRepository) {}
+  constructor(
+    private readonly colaboratorIndicatorRepository: ColaboratorIndicatorRepository,
+  ) {}
 
   create(createColaboratorIndicatorDto: CreateColaboratorIndicatorDto) {
-    return this.colaboratorIndicatorRepository.create(createColaboratorIndicatorDto);
+    return this.colaboratorIndicatorRepository.create(
+      createColaboratorIndicatorDto,
+    );
   }
 
   findAll() {
@@ -20,8 +23,14 @@ export class ColaboratorIndicatorService {
     return this.colaboratorIndicatorRepository.findOne(id);
   }
 
-  update(id: number, updateColaboratorIndicatorDto: UpdateColaboratorIndicatorDto) {
-    return this.colaboratorIndicatorRepository.update(id, updateColaboratorIndicatorDto);
+  update(
+    id: number,
+    updateColaboratorIndicatorDto: UpdateColaboratorIndicatorDto,
+  ) {
+    return this.colaboratorIndicatorRepository.update(
+      id,
+      updateColaboratorIndicatorDto,
+    );
   }
 
   remove(id: number) {
@@ -42,45 +51,17 @@ export class ColaboratorIndicatorService {
 
     for (var i = 1; i <= 6; i++) {
 
-      var totalGoal = 0
-      var totalSuperGoal = 0
-      var totalChallenge = 0
-      var totalNothing = 0
-
       var analysedMonth = lastMonth - i 
       if (analysedMonth <= 0) {
         analysedMonth = 12 + (lastMonth - i )
       }
 
-      var monthResults = await this.colaboratorIndicatorRepository.findAllWithMonth(analysedMonth)
+      var monthResult = await this.getStatisticsByMonth(analysedMonth)
 
-      monthResults.forEach(element => {
-
-        if(element.result != null) {
-  
-          if(element.result >= element.challenge){
-            totalChallenge ++
-          }
-          else if (element.result >= element.superGoal){ 
-            totalSuperGoal ++
-          }
-          else if (element.result >= element.goal){
-            totalGoal ++
-          }
-          else {
-            totalNothing ++
-          }
-  
-        } else{
-          totalNothing ++
-        }
-        
-      });
-
-      goal.push(totalGoal)
-      superGoal.push(totalSuperGoal)
-      challenge.push(totalChallenge)
-      nothing.push(totalNothing)
+      goal.push(monthResult.goal)
+      superGoal.push(monthResult.superGoal)
+      challenge.push(monthResult.challenge)
+      nothing.push(monthResult.nothing)
 
     }
 
@@ -90,6 +71,47 @@ export class ColaboratorIndicatorService {
      challenge,
      nothing,
     }
+  }
 
+  //TODO
+  async getStatisticsByColaboratorMonth(id: number, month: number) {}
+
+  //TODO
+  async getStatisticsByColaborator(id: number) {}
+
+  async getStatisticsByMonth(month: number) {
+    if (month == 0) {
+      month = 12;
+    }
+    var goal = 0;
+    var superGoal = 0;
+    var challenge = 0;
+    var nothing = 0;
+
+    const results =
+      await this.colaboratorIndicatorRepository.findAllWithMonth(month);
+
+    results.forEach((element) => {
+      if (element.result != null) {
+        if (element.result >= element.challenge) {
+          challenge++;
+        } else if (element.result >= element.superGoal) {
+          superGoal++;
+        } else if (element.result >= element.goal) {
+          goal++;
+        } else {
+          nothing++;
+        }
+      } else {
+        nothing++;
+      }
+    });
+
+    return {
+      goal,
+      superGoal,
+      challenge,
+      nothing,
+    };
   }
 }
