@@ -44,4 +44,14 @@ export class ColaboratorService {
   remove(id: number) {
     return this.colaboratorRepository.remove(id);
   }
+
+  getAllOrderedByName(){
+    return this.colaboratorRepository.getAllOrderedByName();
+
+  }
+
+  getAllOrderedByGrade(){
+    return this.colaboratorRepository.getAllOrderedByGrade();
+
+  }
 }

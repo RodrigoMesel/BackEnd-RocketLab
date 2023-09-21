@@ -49,7 +49,7 @@ export class ColaboratorIndicatorService {
     var challenge = []
     var nothing = []
 
-    for (var i = 1; i <= 6; i++) {
+    for (var i = 0; i < 6; i++) {
 
       var analysedMonth = lastMonth - i 
       if (analysedMonth <= 0) {
