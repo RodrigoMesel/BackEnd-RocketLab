@@ -1,47 +1,56 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnApplicationBootstrap } from '@nestjs/common';
 import { CreateColaboratorDto } from '../DTO/colaboratorDTO/create-colaborator.dto';
 import { UpdateColaboratorDto } from '../DTO/colaboratorDTO/update-colaborator.dto';
 import { ColaboratorRepository } from 'src/Repositories/colaborator.repository';
 import { ColaboratorIndicatorRepository } from 'src/Repositories/colaborator-indicator.repository';
 
 @Injectable()
-export class ColaboratorService {
+export class ColaboratorService implements OnApplicationBootstrap {
 
   constructor(private readonly colaboratorRepository: ColaboratorRepository,
               private readonly colaboratorIndicatorRepository: ColaboratorIndicatorRepository) {}
 
-  create(createColaboratorDto: CreateColaboratorDto) {
-    return this.colaboratorRepository.create(createColaboratorDto);
-  }
+  async onApplicationBootstrap() {
+    await this.updateGrade();
+  }            
 
-  findAll() {
-    return this.colaboratorRepository.findAll();
-  }
+  async updateGrade() {
+    var colaborators = await this.findAll()
+    await Promise.all(colaborators.map(async element => {
 
-  findOne(id: number) {
-    return this.colaboratorRepository.findOne(id);
-  }
-
-  update(id: number, updateColaboratorDto: UpdateColaboratorDto) {
-    return this.colaboratorRepository.update(id, updateColaboratorDto);
-  }
-
-  async updateGrade(id: number, updateColaboratorDto: UpdateColaboratorDto) {
-    var userActivities = await this.colaboratorIndicatorRepository.findAllUserActivitiesWithLastMonth(updateColaboratorDto.id)
+      var userActivities = await this.colaboratorIndicatorRepository.findAllUserActivitiesWithLastMonth(element.id)
     
-    var grade = 0
-    userActivities.forEach(element => {
-
-      if(element.result != null){
-        grade += element.result * element.weight
+      var grade = 0
+      if(userActivities.length != null && userActivities.length > 0){
+        Promise.all(userActivities.map(async indicator => {
+  
+          if(indicator.result != null){
+            grade += indicator.result * indicator.weight
+          }
+          
+        }));
+        grade = grade / userActivities.length
       }
-      
-    });
-
-    grade = grade / userActivities.length
-
-    return this.colaboratorRepository.updateGrade(id, updateColaboratorDto, grade)
+      await this.colaboratorRepository.updateGrade(element, grade)
+    }));
   }
+
+  async create(createColaboratorDto: CreateColaboratorDto) {
+    return await this.colaboratorRepository.create(createColaboratorDto);
+  }
+
+  async findAll() {
+    return await this.colaboratorRepository.findAll();
+  }
+
+  async findOne(id: number) {
+    return await this.colaboratorRepository.findOne(id);
+  }
+
+  async update(id: number, updateColaboratorDto: UpdateColaboratorDto) {
+    return await this.colaboratorRepository.update(id, updateColaboratorDto);
+  }
+
 
   remove(id: number) {
     return this.colaboratorRepository.remove(id);
