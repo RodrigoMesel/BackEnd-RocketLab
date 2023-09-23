@@ -29,7 +29,7 @@ export class ColaboratorService implements OnApplicationBootstrap {
           }
           
         }));
-        grade = grade / userActivities.length
+        grade = Math.round(grade / userActivities.length * 10) / 10
       }
       await this.colaboratorRepository.updateGrade(element, grade)
     }));
