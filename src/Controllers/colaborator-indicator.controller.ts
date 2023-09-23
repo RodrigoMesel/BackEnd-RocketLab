@@ -39,6 +39,12 @@ export class ColaboratorIndicatorController {
     return await this.colaboratorIndicatorService.getUserStatistics(+month, +colaboratorId);
   }
 
+  @ApiOperation({ summary: 'Retorna estatísticas de um usuário dos últimos 6 meses' })
+  @Get('statistics/colaboratorId/:colaboratorId')
+  async getUserStatisticsLast6Months(@Param('colaboratorId') colaboratorId: string) {
+    return await this.colaboratorIndicatorService.getUserHistory(+colaboratorId);
+  }
+
   @ApiOperation({
     summary: 'Retorna estatísticas gerais dos indicadores por mes',
   })

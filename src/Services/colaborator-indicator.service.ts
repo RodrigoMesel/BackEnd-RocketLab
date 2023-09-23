@@ -39,7 +39,7 @@ export class ColaboratorIndicatorService {
     return this.colaboratorIndicatorRepository.remove(id);
   }
 
-  async getDashboardStatistics(){
+  async getDashboardStatistics(){ // Estatisticas do dashboard da tela principal
 
     var lastMonth = new Date().getMonth()
     if(lastMonth == 0) {
@@ -107,7 +107,7 @@ export class ColaboratorIndicatorService {
     }
   }
 
-  async getDashStatisticsByColaboratorAndMonth(id: number, month: number) {
+  async getDashStatisticsByColaboratorAndMonth(id: number, month: number) { // Auxiliar da função de cima
 
     const monthIndicators = await this.colaboratorIndicatorRepository.findAllWithMonthAndColaborator(month, id);
     var goal = 0;
@@ -175,7 +175,7 @@ export class ColaboratorIndicatorService {
     };
   }
 
-  async getUserStatistics(month: number, id: number) {
+  async getUserStatistics(month: number, id: number) { // Estatisticas do usuario por mes
     var actualMonth = new Date().getMonth() + 1
 
     if(actualMonth == month){
@@ -294,5 +294,41 @@ export class ColaboratorIndicatorService {
 
       monthIndicators,
     };
+  }
+
+
+  async getUserHistory(colaboratorId: number) { // Dashboard inidvidual de cada usuario
+
+    var goal = [0,0,0,0,0,0]
+    var superGoal = [0,0,0,0,0,0]
+    var challenge = [0,0,0,0,0,0]
+    var nothing = [0,0,0,0,0,0]
+
+    var lastMonth = new Date().getMonth()
+    if(lastMonth == 0) {
+      lastMonth = 12
+    }
+
+    for (var i = 0; i < 6; i++) {
+
+      var analysedMonth = lastMonth - i;
+      if (analysedMonth <= 0) {
+        analysedMonth = 12 + (lastMonth - i);
+      }
+
+      var monthResult = await this.getDashStatisticsByColaboratorAndMonth(colaboratorId, analysedMonth);
+
+      goal[i] = monthResult.goal
+      superGoal[i] = monthResult.superGoal
+      challenge[i] = monthResult.challenge
+      nothing[i] = monthResult.nothing
+    }
+
+    return{
+      goal,
+      superGoal,
+      challenge,
+      nothing
+    }
   }
 }
