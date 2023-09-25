@@ -25,12 +25,18 @@ export class ColaboratorService implements OnApplicationBootstrap {
         Promise.all(userActivities.map(async indicator => {
   
           if(indicator.result != null){
-            grade += indicator.result * indicator.weight
+            if (indicator.result >= indicator.challenge) {
+              grade += 5 * indicator.weight;
+            } else if (indicator.result >= indicator.superGoal) {
+              grade += 4 * indicator.weight;
+            } else if (indicator.result >= indicator.goal) {
+              grade += 3 * indicator.weight;
+            } 
           }
-          
         }));
-        grade = Math.round(grade / userActivities.length * 10) / 10
       }
+
+      grade = Math.round(grade * 10) / 10
       await this.colaboratorRepository.updateGrade(element, grade)
     }));
   }

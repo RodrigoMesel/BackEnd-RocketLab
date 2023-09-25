@@ -213,14 +213,16 @@ export class ColaboratorIndicatorService {
     lastMonthIndicators.forEach((element) => {
       if (element.result != null) {
 
-        monthGrade += element.result * element.weight
 
         if (element.result >= element.challenge) {
           challenge++;
+          monthGrade += 5 * element.weight
         } else if (element.result >= element.superGoal) {
           superGoal++;
+          monthGrade += 4 * element.weight
         } else if (element.result >= element.goal) {
           goal++;
+          monthGrade += 3 * element.weight
         } else {
           nothing++;
           nothingIndicators.push(element)
@@ -231,7 +233,7 @@ export class ColaboratorIndicatorService {
       }
     });
 
-    monthGrade /= lastMonthIndicators.length
+    monthGrade = Math.round(monthGrade * 10) / 10
 
     return {
       goal,
