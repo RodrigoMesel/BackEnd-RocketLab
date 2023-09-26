@@ -59,18 +59,17 @@ export class ColaboratorRepository {
     }
   }
 
-  async updateGrade(id: number, updateColaboratorDto: UpdateColaboratorDto, grade: number) {
+  async updateGrade(updateColaboratorDto: UpdateColaboratorDto, grade: number) {
     try {     
 
         return await this.prisma.colaborator.update({   
             where: {
-                id: id
+                id: updateColaboratorDto.id
             },         
 
             data: {
-              id: id,
               name: updateColaboratorDto.name,
-              grade: grade
+              grade: grade,
             }
         })
 

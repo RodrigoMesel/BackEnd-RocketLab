@@ -85,18 +85,20 @@ export class ColaboratorIndicatorRepository {
     }
   }
 
-  async findAllUserActivitiesWithLastMonth(id: number) {
+  async findAllUserActivitiesWithLastMonth(colaboratorId: number) {
     try {
       var lastMonth = new Date().getMonth()
       if(lastMonth == 0){
         lastMonth = 12
       }
-      return await this.prisma.colaboratorIndicator.findMany({
+      var result = await this.prisma.colaboratorIndicator.findMany({
         where: {
           creationMonth: lastMonth,
-          id: id
+          colaboratorId: colaboratorId,
         }
       });
+      return result
+
     } catch (error) {
       throw error;
     }

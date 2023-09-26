@@ -27,16 +27,22 @@ export class ColaboratorIndicatorController {
     );
   }
 
-  @ApiOperation({ summary: 'Retorna estatísticas gerais dos indicadores' })
+  @ApiOperation({ summary: 'Retorna estatísticas gerais para o Dashboard' })
   @Get('statistics')
   async getStatistics() {
-    return await this.colaboratorIndicatorService.getStatistics();
+    return await this.colaboratorIndicatorService.getDashboardStatistics();
   }
 
   @ApiOperation({ summary: 'Retorna estatísticas de um usuário para um específico mês' })
   @Get('statistics/month/:month/colaboratorId/:colaboratorId')
   async getUserStatisticsByMonth(@Param('month') month: string, @Param('colaboratorId') colaboratorId: string) {
-    return await this.colaboratorIndicatorService.getStatisticsByMonthAndColaborator(+month, +colaboratorId);
+    return await this.colaboratorIndicatorService.getUserStatistics(+month, +colaboratorId);
+  }
+
+  @ApiOperation({ summary: 'Retorna estatísticas de um usuário dos últimos 6 meses' })
+  @Get('statistics/colaboratorId/:colaboratorId')
+  async getUserStatisticsLast6Months(@Param('colaboratorId') colaboratorId: string) {
+    return await this.colaboratorIndicatorService.getUserHistory(+colaboratorId);
   }
 
   @ApiOperation({
