@@ -3,7 +3,6 @@ import { CreateColaboratorIndicatorDto } from '../DTO/colaboratorIndicatorDTO/cr
 import { UpdateColaboratorIndicatorDto } from '../DTO/colaboratorIndicatorDTO/update-colaborator-indicator.dto';
 import { PrismaService } from 'src/database/prisma.service';
 
-
 @Injectable()
 export class ColaboratorIndicatorRepository {
   constructor(private prisma: PrismaService) {}
@@ -11,17 +10,17 @@ export class ColaboratorIndicatorRepository {
   async create(createColaboratorIndicatorDto: CreateColaboratorIndicatorDto) {
     try {
       return await this.prisma.colaboratorIndicator.create({
-          data: {
-            colaboratorId: createColaboratorIndicatorDto.colaboratorId,
-            indicatorId: createColaboratorIndicatorDto.indicatorId,
-            result: createColaboratorIndicatorDto.result,
-            weight: createColaboratorIndicatorDto.weight,
-            challenge: createColaboratorIndicatorDto.challenge,
-            superGoal: createColaboratorIndicatorDto.superGoal,
-            goal: createColaboratorIndicatorDto.goal,
-            unity: createColaboratorIndicatorDto.unity,
-            creationMonth: new Date().getMonth() + 1
-          }        
+        data: {
+          colaboratorId: createColaboratorIndicatorDto.colaboratorId,
+          indicatorId: createColaboratorIndicatorDto.indicatorId,
+          result: createColaboratorIndicatorDto.result,
+          weight: createColaboratorIndicatorDto.weight,
+          challenge: createColaboratorIndicatorDto.challenge,
+          superGoal: createColaboratorIndicatorDto.superGoal,
+          goal: createColaboratorIndicatorDto.goal,
+          unity: createColaboratorIndicatorDto.unity,
+          creationMonth: new Date().getMonth() + 1,
+        },
       });
     } catch (error) {
       throw error;
@@ -52,33 +51,33 @@ export class ColaboratorIndicatorRepository {
     try {
       return await this.prisma.colaboratorIndicator.findMany({
         where: {
-          creationMonth: new Date().getMonth() + 1
-        }
+          creationMonth: new Date().getMonth() + 1,
+        },
       });
     } catch (error) {
       throw error;
     }
   }
 
-  async findAllWithMonth(month : number) {
-    try {
-      return await this.prisma.colaboratorIndicator.findMany({
-        where: {
-          creationMonth: month
-        }
-      });
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  async findAllWithMonthAndColaborator(month : number, id: number) {
+  async findAllWithMonth(month: number) {
     try {
       return await this.prisma.colaboratorIndicator.findMany({
         where: {
           creationMonth: month,
-          colaboratorId: id
-        }
+        },
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async findAllWithMonthAndColaborator(month: number, id: number) {
+    try {
+      return await this.prisma.colaboratorIndicator.findMany({
+        where: {
+          creationMonth: month,
+          colaboratorId: id,
+        },
       });
     } catch (error) {
       throw error;
@@ -87,18 +86,17 @@ export class ColaboratorIndicatorRepository {
 
   async findAllUserActivitiesWithLastMonth(colaboratorId: number) {
     try {
-      var lastMonth = new Date().getMonth()
-      if(lastMonth == 0){
-        lastMonth = 12
+      var lastMonth = new Date().getMonth();
+      if (lastMonth == 0) {
+        lastMonth = 12;
       }
       var result = await this.prisma.colaboratorIndicator.findMany({
         where: {
           creationMonth: lastMonth,
           colaboratorId: colaboratorId,
-        }
+        },
       });
-      return result
-
+      return result;
     } catch (error) {
       throw error;
     }
@@ -113,7 +111,7 @@ export class ColaboratorIndicatorRepository {
         where: {
           id: id,
         },
-        data: updateColaboratorIndicatorDto
+        data: updateColaboratorIndicatorDto,
       });
     } catch (error) {
       throw error;
@@ -131,6 +129,4 @@ export class ColaboratorIndicatorRepository {
       throw error;
     }
   }
-
-
 }
