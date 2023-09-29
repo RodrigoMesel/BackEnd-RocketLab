@@ -35,10 +35,22 @@ export class ColaboratorController {
     return this.colaboratorService.getAllOrderedByName();
   }
 
+  @ApiOperation({ summary: 'Retorna todos colaboradores separados por nome' })
+  @Get('separetedByName')
+  findAllSeparetedByName() {
+    return this.colaboratorService.getAllSeparetedByName();
+  }
+
   @ApiOperation({ summary: 'Retorna todos colaboradores ordenados por nota' })
   @Get('sortedByGrade')
   findAllOrderedByGrade() {
     return this.colaboratorService.getAllOrderedByGrade();
+  }
+
+  @ApiOperation({ summary: 'Retorna todos colaboradores separados por nota' })
+  @Get('separetedByGrade')
+  findAllSeparetedByGrade() {
+    return this.colaboratorService.getAllSeparetedByGrade();
   }
 
   @ApiOperation({ summary: 'Retorna um colaborador' })
