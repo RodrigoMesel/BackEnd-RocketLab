@@ -67,8 +67,74 @@ export class ColaboratorService implements OnApplicationBootstrap {
 
   }
 
-  getAllOrderedByGrade(){
-    return this.colaboratorRepository.getAllOrderedByGrade();
+  
+  async getAllSeparetedByName(){
+    var all = await this.colaboratorRepository.getAllOrderedByName();
+
+    var actualLetter = ''
+    var result = []
+
+    all.forEach(element => {
+      var initial = element.name[0].toUpperCase()
+      var existingObject = result.find(item => item.initial === initial);
+
+      if(existingObject){
+        existingObject.colaborators.push(element);
+
+
+      } else{
+        actualLetter = initial
+        result.push({
+          initial: initial,
+          colaborators: [element]
+        })
+      }
+    });
+
+    return result
 
   }
+
+  getAllOrderedByGrade(){
+    return this.colaboratorRepository.getAllOrderedByGrade();
+  }
+
+  async getAllSeparetedByGrade(){
+    var all = await this.colaboratorRepository.getAllOrderedByGrade();
+
+    var grade4_5 = []
+    var grade3_4 = []
+    var grade2_3 = []
+    var grade1_2 = []
+    var grade0_1 = []
+
+
+    all.forEach(element => {
+      if(element.grade <= 5 && element.grade >=4) {
+        grade4_5.push(element)
+      }
+      else if(element.grade < 4 && element.grade >=3) {
+        grade3_4.push(element)
+      } else if(element.grade < 3 && element.grade >=2) {
+        grade2_3.push(element)
+      } else if(element.grade < 2 && element.grade >=1) {
+        grade1_2.push(element)
+      } else{
+        grade0_1.push(element)
+      }
+    });
+
+    return{
+      grade4_5,
+      grade3_4,
+      grade2_3,
+      grade1_2,
+      grade0_1
+    }
+
+  }
+
+  
+
+  
 }
