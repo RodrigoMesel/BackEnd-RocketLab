@@ -1,11 +1,10 @@
 import {
-  IsDecimal,
   IsEnum,
   IsNotEmpty,
-  IsOptional,
-  Max,
-  Min,
 } from 'class-validator';
+import { Unity } from '@prisma/client';
+import { ApiProperty } from '@nestjs/swagger';
+
 
 export class CreateIndicatorDto {
   /**
@@ -14,4 +13,13 @@ export class CreateIndicatorDto {
    */
   @IsNotEmpty()
   name: string;
+
+  @ApiProperty({
+    description: 'Tipo do indicador',
+    enum: Unity,
+    example: 'Numero',
+  })
+  @IsEnum(Unity)
+  @IsNotEmpty()
+  unity: Unity;
 }

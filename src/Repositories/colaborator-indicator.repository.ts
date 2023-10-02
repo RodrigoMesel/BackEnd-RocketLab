@@ -18,7 +18,6 @@ export class ColaboratorIndicatorRepository {
           challenge: createColaboratorIndicatorDto.challenge,
           superGoal: createColaboratorIndicatorDto.superGoal,
           goal: createColaboratorIndicatorDto.goal,
-          unity: createColaboratorIndicatorDto.unity,
           creationMonth: new Date().getMonth() + 1,
         },
       });
