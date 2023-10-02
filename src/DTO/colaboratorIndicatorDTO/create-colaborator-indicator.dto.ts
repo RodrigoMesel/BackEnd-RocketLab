@@ -1,13 +1,8 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { Unity } from '@prisma/client';
 import {
-  IsArray,
-  IsEnum,
   IsNotEmpty,
   IsOptional,
   Max,
   Min,
-  isArray,
 } from 'class-validator';
 
 export class CreateColaboratorIndicatorDto {
@@ -40,15 +35,6 @@ export class CreateColaboratorIndicatorDto {
   @Max(0.99)
   @IsNotEmpty()
   weight: number;
-
-  @ApiProperty({
-    description: 'Tipo do indicador',
-    enum: Unity,
-    example: 'Numero',
-  })
-  @IsEnum(Unity)
-  @IsNotEmpty()
-  unity: Unity;
 
   /**
    * Meta do indicador.
