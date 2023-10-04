@@ -234,17 +234,22 @@ export class ColaboratorIndicatorService {
         id,
       );
 
-    monthIndicators.forEach(
-      (element) =>
-        (element['name'] = indicatorNames.find(
+    monthIndicators.forEach((element) => {
+      (element['name'] = indicatorNames.find(
+        (item) => item.id === element.indicatorId,
+      ).name),
+        (element['unity'] = indicatorNames.find(
           (item) => item.id === element.indicatorId,
-        ).name),
-    );
+        ).unity);
+    });
 
     lastMonthIndicators.forEach((element) => {
       element['name'] = indicatorNames.find(
         (item) => item.id === element.indicatorId,
       ).name;
+      element['unity'] = indicatorNames.find(
+        (item) => item.id === element.indicatorId,
+      ).unity;
       if (element.result != null) {
         if (element.result >= element.challenge) {
           challenge++;
@@ -303,6 +308,9 @@ export class ColaboratorIndicatorService {
       element['name'] = indicatorNames.find(
         (item) => item.id === element.indicatorId,
       ).name;
+      element['unity'] = indicatorNames.find(
+        (item) => item.id === element.indicatorId,
+      ).unity;
 
       if (element.result != null) {
         if (element.result >= element.challenge) {
