@@ -305,14 +305,15 @@ export class ColaboratorIndicatorService {
       ).name;
 
       if (element.result != null) {
-        monthGrade += element.result * element.weight;
-
         if (element.result >= element.challenge) {
           challenge++;
+          monthGrade += 5 * element.weight;
         } else if (element.result >= element.superGoal) {
           superGoal++;
+          monthGrade += 4 * element.weight;
         } else if (element.result >= element.goal) {
           goal++;
+          monthGrade += 3 * element.weight;
         } else {
           nothing++;
           nothingIndicators.push(element);
@@ -322,8 +323,6 @@ export class ColaboratorIndicatorService {
         nothingIndicators.push(element);
       }
     });
-
-    monthGrade = monthGrade / monthIndicators.length;
 
     return {
       goal,
