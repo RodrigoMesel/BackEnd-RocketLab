@@ -1,9 +1,4 @@
-import {
-  IsNotEmpty,
-  IsOptional,
-  Max,
-  Min,
-} from 'class-validator';
+import { IsNotEmpty, IsOptional, Max, Min } from 'class-validator';
 
 export class CreateColaboratorIndicatorDto {
   /**
@@ -32,7 +27,7 @@ export class CreateColaboratorIndicatorDto {
    * @example 0.3
    */
   @Min(0.01)
-  @Max(0.99)
+  @Max(1.0)
   @IsNotEmpty()
   weight: number;
 
