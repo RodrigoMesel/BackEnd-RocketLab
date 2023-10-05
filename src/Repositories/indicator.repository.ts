@@ -22,7 +22,11 @@ export class IndicatorRepository {
   async findAll() {
     try {     
 
-        return await this.prisma.indicator.findMany()
+        return await this.prisma.indicator.findMany({
+          orderBy: {
+            id: "asc"
+          }
+        })
 
     } catch (error) {
       throw error;
