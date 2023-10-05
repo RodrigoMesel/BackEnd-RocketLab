@@ -22,7 +22,11 @@ export class ColaboratorRepository {
   async findAll() {
     try {     
 
-        return await this.prisma.colaborator.findMany()
+        return await this.prisma.colaborator.findMany({
+          orderBy: {
+            id: "asc"
+          }
+        })
 
     } catch (error) {
       throw error;

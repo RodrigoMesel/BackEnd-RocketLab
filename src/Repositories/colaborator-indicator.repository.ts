@@ -28,7 +28,11 @@ export class ColaboratorIndicatorRepository {
 
   async findAll() {
     try {
-      return await this.prisma.colaboratorIndicator.findMany();
+      return await this.prisma.colaboratorIndicator.findMany({
+        orderBy: {
+          id: "asc"
+        }
+      });
     } catch (error) {
       throw error;
     }
@@ -52,6 +56,9 @@ export class ColaboratorIndicatorRepository {
         where: {
           creationMonth: new Date().getMonth() + 1,
         },
+        orderBy: {
+          id: "asc"
+        }
       });
     } catch (error) {
       throw error;
@@ -64,6 +71,9 @@ export class ColaboratorIndicatorRepository {
         where: {
           creationMonth: month,
         },
+        orderBy: {
+          id: "asc"
+        }
       });
     } catch (error) {
       throw error;
@@ -77,6 +87,9 @@ export class ColaboratorIndicatorRepository {
           creationMonth: month,
           colaboratorId: id,
         },
+        orderBy: {
+          id: "asc"
+        }
       });
     } catch (error) {
       throw error;
@@ -94,6 +107,9 @@ export class ColaboratorIndicatorRepository {
           creationMonth: lastMonth,
           colaboratorId: colaboratorId,
         },
+        orderBy: {
+          id: "asc"
+        }
       });
       return result;
     } catch (error) {
