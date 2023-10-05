@@ -234,6 +234,11 @@ export class ColaboratorIndicatorService {
         id,
       );
 
+    const indicators =
+      await this.colaboratorIndicatorRepository.findAllWithUser(id);
+
+    var isActive = indicators.length > 0 ? true : false;
+
     monthIndicators.forEach((element) => {
       (element['name'] = indicatorNames.find(
         (item) => item.id === element.indicatorId,
@@ -279,7 +284,7 @@ export class ColaboratorIndicatorService {
       nothing,
       monthGrade,
       nothingIndicators,
-
+      isActive,
       monthIndicators,
     };
   }
@@ -303,6 +308,11 @@ export class ColaboratorIndicatorService {
         month,
         id,
       );
+
+    const indicators =
+      await this.colaboratorIndicatorRepository.findAllWithUser(id);
+
+    var isActive = indicators.length > 0 ? true : false;
 
     monthIndicators.forEach((element) => {
       element['name'] = indicatorNames.find(
@@ -339,7 +349,7 @@ export class ColaboratorIndicatorService {
       nothing,
       monthGrade,
       nothingIndicators,
-
+      isActive,
       monthIndicators,
     };
   }

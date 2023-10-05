@@ -80,6 +80,21 @@ export class ColaboratorIndicatorRepository {
     }
   }
 
+  async findAllWithUser(colaboratorId: number) {
+    var actualMonth = new Date().getMonth() + 1;
+
+    try {
+      return await this.prisma.colaboratorIndicator.findMany({
+        where: {
+          colaboratorId: colaboratorId,
+          creationMonth: { not: actualMonth },
+        },
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async findAllWithMonthAndColaborator(month: number, id: number) {
     try {
       return await this.prisma.colaboratorIndicator.findMany({
